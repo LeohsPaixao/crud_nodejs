@@ -1,18 +1,16 @@
-async function connect() {
-    if (global.connection && global.connection.state !== 'disconnected')
-        return global.connection;
+const pgsql = require('pg').Client
+const cliente = new pgsql({
+    host: 'localhost',
+    user: 'postgres',
+    password: '96127748',
+    port: '5432',
+    database: 'crudnode'
+})
 
-    const mysql = require('mysql2/promise');
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '96127748',
-        database: 'crudnode'
-    });
-    console.log('Conectou no MySQL')
-    global.connection = connection;
-    return connection;
-}
-connect();
-
-module.exports = {}
+cliente.connect();
+cliente.query('SELECT * FROM clientes;')
+    .then(results => {
+        const result = results.rows
+        console.log(result)
+    })
+    .finally(() => cliente.end())
