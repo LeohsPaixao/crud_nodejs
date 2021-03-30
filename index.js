@@ -1,2 +1,3 @@
 const db = require("./db");
-console.log('Começou');
+console.log("Connecting to database........")
+
