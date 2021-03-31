@@ -2,4 +2,3 @@ dbconfig.sql
 package-lock.json
 node_modules
 .env
-index.html
