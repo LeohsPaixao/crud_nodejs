@@ -40,6 +40,20 @@ app.get('/', (red, res) => {
         <input type="text" name="year" id="year">
         <input type="submit" value="REGISTRAR">
         </form>
+        <form action="/info/delete" method="POST">
+        <label for="delete">DELETE: </label>
+        <input type="text" name="id" id="delete">
+        <input type="submit" value="DELETE">
+        </form>
+        <form action="/info/delete" method="POST">
+        <label for="delete">DELETE: </label>
+        <input type="text" name="id" id="delete">
+        <input type="submit" value="DELETE">
+        <form action="/info/delete" method="POST">
+        <label for="delete">DELETE: </label>
+        <input type="text" name="id" id="delete">
+        <input type="submit" value="DELETE">
+        </form>
     </body>
     
     </html>`);
@@ -48,7 +62,7 @@ app.get('/', (red, res) => {
 app.get("/info/get", (req, res) => {
     try {
         db.connect();
-        let resp = db.query(`SELECT * FROM clientes;`);
+        let resp = db.query(`SELECT * FROM clientes`);
         res.send(resp.rows);
         release();
 
@@ -61,7 +75,20 @@ app.get("/info/get", (req, res) => {
 app.post("/info/add", (req, res) => {
     try {
         db.connect();
-        let resp = db.query(`INSERT INTO clientes (id, name, phone, email, idade) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.phone}', '${req.body.email}', '${req.body.year}');`);
+        let resp = db.query(`INSERT INTO clientes (id, name, phone, email, idade) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.phone}', '${req.body.email}', '${req.body.year}')`);
+        console.log(resp);
+        res.redirect('/info/get');
+
+    } catch (ex) {
+        console.log(404);
+    }
+
+});
+
+app.post("/info/delete", (req, res) => {
+    try {
+        db.connect();
+        let resp = db.query(`DELETE FROM clientes WHERE id = '${req.body.id}'`);
         console.log(resp);
         res.redirect('/info/get');
 
