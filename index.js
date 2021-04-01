@@ -28,31 +28,36 @@ app.get('/', (red, res) => {
     
     <body>
         <h1 id="title">Cadastrar Clientes</h1>
-        <form action="/info/get" method="GET">
-        <input type="submit" value="GET">
-        </form>
         <form action="/info/add" method="POST">
-        <label for="add">ADD: </label>
-        <input type="text" name="id" id="id">
-        <input type="text" name="name" id="name">
-        <input type="text" name="phone" id=phone">
-        <input type="email" name="email" id="email">
-        <input type="text" name="year" id="year">
-        <input type="submit" value="REGISTRAR">
+            <label for="add">CADASTRAR: </label>
+            <table>
+                <tr>
+                    <td><input type="text" name="id" id="id"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="name" id="name"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="phone" id="phone"></td>
+                </tr>
+                <tr>
+                    <td><input type="email" name="email" id="email"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="idade" id="idade"></td>
+                </tr>
+            </table><br>
+            <input type="submit" value="REGISTRAR">
         </form>
+        <br>
         <form action="/info/delete" method="POST">
-        <label for="delete">DELETE: </label>
-        <input type="text" name="id" id="delete">
-        <input type="submit" value="DELETE">
-        </form>
-        <form action="/info/delete" method="POST">
-        <label for="delete">DELETE: </label>
-        <input type="text" name="id" id="delete">
-        <input type="submit" value="DELETE">
-        <form action="/info/delete" method="POST">
-        <label for="delete">DELETE: </label>
-        <input type="text" name="id" id="delete">
-        <input type="submit" value="DELETE">
+            <label for="delete">DELETAR: </label>
+            <table>
+                <tr>
+                    <td><input type="text" name="id" id="id"></td>
+                </tr>
+            </table>
+            <input type="submit" value="DELETAR">
         </form>
     </body>
     
@@ -67,7 +72,7 @@ app.get("/info/get", (req, res) => {
         release();
 
     } catch (ex) {
-        console.log(404);
+        console.error(404);
     }
 
 });
@@ -80,7 +85,10 @@ app.post("/info/add", (req, res) => {
         res.redirect('/info/get');
 
     } catch (ex) {
-        console.log(404);
+        console.error(404);
+    } finally {
+        db.end();
+        console.log("Disconnected!!");
     }
 
 });
@@ -93,7 +101,26 @@ app.post("/info/delete", (req, res) => {
         res.redirect('/info/get');
 
     } catch (ex) {
-        console.log(404);
+        console.error(404);
+    } finally {
+        db.end();
+        console.log("Disconnected!!");
+    }
+
+});
+
+app.post("/info/update", (req, res) => {
+    try {
+        db.connect();
+        let resp = db.query(`UPDATE clientes SET id = '${req.body.newValue}' WHERE id = '${req.body.oldValue}'`);
+        console.log(resp);
+        res.redirect('/info/get');
+
+    } catch (ex) {
+        console.error(404);
+    } finally {
+        db.end();
+        console.log("Disconnected!!");
     }
 
 })
