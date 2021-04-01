@@ -33,10 +33,11 @@ app.get('/', (red, res) => {
         </form>
         <form action="/info/add" method="POST">
         <label for="add">ADD: </label>
+        <input type="text" name="id" id="id">
         <input type="text" name="name" id="name">
         <input type="text" name="phone" id=phone">
         <input type="email" name="email" id="email">
-        <input type="text" name="idade" id="year">
+        <input type="text" name="year" id="year">
         <input type="submit" value="REGISTRAR">
         </form>
     </body>
@@ -60,7 +61,7 @@ app.get("/info/get", (req, res) => {
 app.post("/info/add", (req, res) => {
     try {
         db.connect();
-        db.query(`INSERT INTO clientes (name, phone, email, idade) VALUES ('${req.body.name}', '${req.body.phone}', '${req.body.email}', '${req.body.year}');`);
+        let resp = db.query(`INSERT INTO clientes (id, name, phone, email, idade) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.phone}', '${req.body.email}', '${req.body.year}');`);
         console.log(resp);
         res.redirect('/info/get');
 
