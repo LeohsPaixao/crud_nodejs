@@ -6,3 +6,5 @@ const db = new cliente({
     port: 5432,
     database: 'crudnode'
 })
+
+module.exports = db;
